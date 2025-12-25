@@ -21,10 +21,13 @@ const nextConfig: NextConfig = {
       buffer: require.resolve("buffer/"),
       "node:buffer": require.resolve("buffer/"),
       "buffer/index.js": require.resolve("buffer/"),
+      stream: require.resolve("stream-browserify"),
+      "node:stream": require.resolve("stream-browserify"),
     };
     config.resolve.fallback = {
       ...(config.resolve.fallback ?? {}),
       buffer: require.resolve("buffer/"),
+      stream: require.resolve("stream-browserify"),
     };
     config.plugins.push(
       new webpack.ProvidePlugin({
@@ -37,6 +40,10 @@ const nextConfig: NextConfig = {
       new webpack.NormalModuleReplacementPlugin(
         /^buffer\/index\.js$/,
         require.resolve("buffer/")
+      ),
+      new webpack.NormalModuleReplacementPlugin(
+        /^node:stream$/,
+        require.resolve("stream-browserify")
       )
     );
     return config;
